@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: geography-game
+
+Globals:
+  Function:
+    Timeout: 5
+    MemorySize: 128
+
+Resources:
+  GeographyGame:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      ImageUri: geography-game
+      Architectures:
+        - arm64
+      Events:
+        GetCountry:
+          Type: Api
+          Properties:
+            Path: /get-country
+            Method: GET
+    Metadata:
+      DockerTag: java17-maven-v1
+      DockerContext: ./GeographyGame
+      Dockerfile: Dockerfile
