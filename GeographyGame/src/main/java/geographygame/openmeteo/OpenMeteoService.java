@@ -1,7 +1,5 @@
 package geographygame.openmeteo;
 
-import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import geographygame.exceptions.OpenMeteoException;
@@ -22,12 +20,11 @@ public class OpenMeteoService {
 
     private final HttpClient HTTP_CLIENT;
     public OpenMeteoService() {
-        HTTP_CLIENT = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(1)).build();
+        HTTP_CLIENT = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(2)).build();
     }
 
-    private double[] getPosition(String capital, String iso2, Context context) throws OpenMeteoException {
-        LambdaLogger logger = context.getLogger();
-        logger.log(String.format("--- getPosition(%s, %s) ---\n", capital, iso2));
+    private double[] getPosition(String capital, String iso2) throws OpenMeteoException {
+        System.out.printf("--- getPosition(%s, %s) ---\n", capital, iso2);
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI("https://geocoding-api.open-meteo.com/v1/search?name=" + capital.replace(" ", "%20")))
@@ -43,11 +40,10 @@ public class OpenMeteoService {
         }
     }
 
-    public int getCurrentWeather(Country country, Context context) throws OpenMeteoException {
-        LambdaLogger logger = context.getLogger();
-        logger.log(String.format("--- getCurrentWeather(%s) ---\n", country.getIso3()));
+    public int getCurrentWeather(Country country) throws OpenMeteoException {
+        System.out.printf("--- getCurrentWeather(%s) ---\n", country.getIso3());
         try {
-            double[] latitudeLongitude = getPosition(country.getCapital(), country.getIso2(), context);
+            double[] latitudeLongitude = getPosition(country.getCapital(), country.getIso2());
             if (latitudeLongitude.length == 0) return 100;
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI(String.format("https://api.open-meteo.com/v1/forecast?latitude=%f&longitude=%f&current_weather=true", latitudeLongitude[0], latitudeLongitude[1])))

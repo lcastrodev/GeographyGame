@@ -14,6 +14,7 @@ public class Country {
     private String map;
     private String iso2;
     private String iso3;
+    private long area;
     private PopulationCount population;
     private int currentWeather;
 
@@ -27,6 +28,7 @@ public class Country {
         dto.capital = capital;
         dto.map = String.format("https://upload.wikimedia.org/wikipedia/commons/thumb%s", map);
         dto.flag = String.format("https://flagcdn.com/h240/%s.jpg", iso2.toLowerCase());
+        dto.area = area;
         dto.population = population;
         dto.currentWeather = currentWeather;
         return dto;

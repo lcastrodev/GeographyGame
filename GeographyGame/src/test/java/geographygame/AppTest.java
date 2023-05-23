@@ -21,7 +21,8 @@ public class AppTest {
     assertTrue(content.contains("\"capital\""));
     assertTrue(content.contains("\"map\""));
     assertTrue(content.contains("\"flag\""));
+    assertTrue(content.contains("\"area\""));
     assertTrue(content.contains("\"population\""));
-//    assertTrue(content.contains("\"currentWeather\""));
+    assertTrue(content.contains("\"currentWeather\""));
   }
 }

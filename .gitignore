@@ -25,7 +25,7 @@ replay_pid*
 
 # intellij
 *.idea/
-
+*.iml
 
 # macos
 .DS_Store
